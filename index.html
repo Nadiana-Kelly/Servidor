@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Lance mínimo</h2>
+
+<form>
+  <label for="fname">Lance:</label><br>
+  <input type="text" id="ftext" value=""><br><br>
+  <input type="button" id="bnt1" value="Enviar">
+  <input type="button" id="bnt12" value="Calcular lance minimo">
+  <p> Você só pode dá um lance por vez. </p>
+  <p> Os lances não podem ser negativos. </p>
+</form> 
+
+
+<script>  
+    function eh_numero(s) {
+        for (let i = s.length - 1; i >= 0; i--) {
+            const d = s.charCodeAt(i);
+            if (d < 48 || d > 57) 
+                return false
+        }
+        return true
+    }
+
+    document.getElementById("bnt1").addEventListener('click', ()=> {
+        var myHeaders = new Headers();
+
+        let aux = document.getElementById("ftext").value
+
+        if(aux.length == 0) {
+            return;
+        }
+
+        if(eh_numero(aux) == false) {
+            alert("Digite o lance corretamente")
+            return;
+        }
+
+        let requestOptions = {
+                method: 'POST',
+                headers: {
+                            'Content-Type': 'application/json'
+                         },
+                body: JSON.stringify({
+                    "lance": Number(aux)
+                })
+        };
+
+        fetch("http://localhost:8800/dar_lance", requestOptions);
+      })
+
+    document.getElementById("bnt12").addEventListener('click', ()=> { 
+        fetch("http://localhost:8800/lance_m",)
+                .then(response => response.text())
+                .then(result => alert("O lance mininmo é: " + result))
+    })
+
+</script>
+
+
+</body>
+</html>
